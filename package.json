@@ -1,0 +1,19 @@
+{
+  "name": "cirnge-bot",
+  "version": "1.0.0",
+  "description": "cringe",
+  "main": "bot.js",
+  "scripts": {
+    "dev": "nodemon bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mykhailo Kreslavskyi",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "env": "^0.0.2",
+    "mongodb": "^4.8.1",
+    "mongoose": "^6.5.1",
+    "nodemon": "^2.0.19"
+  }
+}
