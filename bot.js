@@ -88,7 +88,8 @@ bot.command('mycringe', async (ctx) => {
     if (!me) {
       ctx.reply(`@${myUsername}, с тебя еще не кринжевали!`);
     } else {
-      ctx.reply(`@${myUsername}, твой счет кринжа: ${me.cringeRate}`);
+      if (me.cringeRate < 0) ctx.reply(`@${myUsername}, твой счет базы: ${-1 * me.cringeRate}`);
+      else ctx.reply(`@${myUsername}, твой счет кринжа: ${me.cringeRate}`);
     }
   } catch (err) {
     console.log(err);
