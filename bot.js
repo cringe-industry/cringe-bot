@@ -19,7 +19,6 @@ bot.command('cringe', async (ctx) => {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
       const username = ctx.update.message.reply_to_message.from.username;
-      console.log(username);
       const user = await users.findOne({ username: username, chatId: ctx.update.message.chat.id });
       const emoji = String.fromCodePoint(0x1f4a9);
       if (!user) {
@@ -30,6 +29,7 @@ bot.command('cringe', async (ctx) => {
           lastUsed: Date.now(),
         });
         ctx.reply(`${emoji} кринж`);
+        console.log(username, '+1');
       } else {
         if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
           const newRate = user.cringeRate + 1;
@@ -38,6 +38,7 @@ bot.command('cringe', async (ctx) => {
             { $set: { cringeRate: newRate, lastUsed: Date.now() } }
           );
           ctx.reply(`${emoji} кринж`);
+          console.log(username, '+1');
         } else {
           ctx.reply(
             'Команды cringe и baza можно использовать не чаще, чем раз в минуту'
@@ -56,7 +57,6 @@ bot.command('baza', async (ctx) => {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
       const username = ctx.update.message.reply_to_message.from.username;
-      console.log(username);
       const user = await users.findOne({ username: username, chatId: ctx.update.message.chat.id });
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
@@ -67,6 +67,7 @@ bot.command('baza', async (ctx) => {
           lastUsed: Date.now(),
         });
         ctx.reply(`${emoji} база`);
+        console.log(username, '-1');
       } else {
         if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
           const newRate = user.cringeRate - 1;
@@ -75,6 +76,7 @@ bot.command('baza', async (ctx) => {
             { $set: { cringeRate: newRate, lastUsed: Date.now() } }
           );
           ctx.reply(`${emoji} база`);
+          console.log(username, '-1');
         } else {
           ctx.reply(
             'Команды cringe и baza можно использовать не чаще, чем раз в минуту'
