@@ -142,7 +142,7 @@ bot.command('topcringe', async (ctx) => {
         reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
       place++;
     });
-    ctx.reply(`Топ-${place} по кринжу в этом чате:\n` + reply.join('\n'));
+    ctx.reply(`Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n'));
   } catch (err) {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
@@ -164,7 +164,7 @@ bot.command('topbaza', async (ctx) => {
         reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate} `);
       place++;
     });
-    ctx.reply(`Топ-${place} по базе:\n` + reply.join('\n'));
+    ctx.reply(`Топ-${reply.length} по базе:\n` + reply.join('\n'));
   } catch (err) {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
