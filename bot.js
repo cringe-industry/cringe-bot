@@ -19,7 +19,10 @@ bot.command('cringe', async (ctx) => {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
       const username = ctx.update.message.reply_to_message.from.username;
-      const user = await users.findOne({ username: username, chatId: ctx.update.message.chat.id });
+      const user = await users.findOne({
+        username: username,
+        chatId: ctx.update.message.chat.id,
+      });
       const emoji = String.fromCodePoint(0x1f4a9);
       if (!user) {
         await users.insertOne({
@@ -57,7 +60,10 @@ bot.command('baza', async (ctx) => {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
       const username = ctx.update.message.reply_to_message.from.username;
-      const user = await users.findOne({ username: username, chatId: ctx.update.message.chat.id });
+      const user = await users.findOne({
+        username: username,
+        chatId: ctx.update.message.chat.id,
+      });
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
         await users.insertOne({
@@ -94,14 +100,19 @@ bot.command('mycringe', async (ctx) => {
   try {
     const users = client.db().collection('users');
     const myUsername = ctx.update.message.from.username;
-    const me = await users.findOne({ username: myUsername, chatId: ctx.update.message.chat.id });
+    const me = await users.findOne({
+      username: myUsername,
+      chatId: ctx.update.message.chat.id,
+    });
     if (!me) {
       ctx.reply(`@${myUsername}, с тебя еще не кринжевали!`);
     } else {
       if (me.cringeRate < 0) {
         const bazaEmoji = String.fromCodePoint(0x1f7e2);
         ctx.reply(
-          `${bazaEmoji} @${myUsername}, твой счет базы в этом чате: ${-1 * me.cringeRate}`
+          `${bazaEmoji} @${myUsername}, твой счет базы в этом чате: ${
+            -1 * me.cringeRate
+          }`
         );
       } else {
         const cringeEmoji = String.fromCodePoint(0x1f534);
@@ -121,13 +132,14 @@ bot.command('topcringe', async (ctx) => {
     let reply = [];
     const users = client.db().collection('users');
     const topCursor = users.aggregate([
-      { $match: { chatId: ctx.update.message.chat.id}},
+      { $match: { chatId: ctx.update.message.chat.id } },
       { $sort: { cringeRate: -1 } },
       { $limit: 5 },
     ]);
     let place = 1;
     await topCursor.forEach((user) => {
-      reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
+      if (user.cringeRate >= 0)
+        reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
       place++;
     });
     ctx.reply('Топ-5 по кринжу в этом чате:\n' + reply.join('\n'));
@@ -142,7 +154,7 @@ bot.command('topbaza', async (ctx) => {
     let reply = [];
     const users = client.db().collection('users');
     const topCursor = users.aggregate([
-      { $match: { chatId: ctx.update.message.chat.id}},
+      { $match: { chatId: ctx.update.message.chat.id } },
       { $sort: { cringeRate: 1 } },
       { $limit: 5 },
     ]);
