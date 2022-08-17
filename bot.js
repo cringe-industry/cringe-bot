@@ -127,7 +127,7 @@ bot.command('topcringe', async (ctx) => {
     ]);
     let place = 1;
     await topCursor.forEach((user) => {
-      reply.push(`${place}. @${user.username}: ${user.cringeRate} `);
+      reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
       place++;
     });
     ctx.reply('Топ-5 по кринжу в этом чате:\n' + reply.join('\n'));
@@ -149,7 +149,7 @@ bot.command('topbaza', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate <= 0)
-        reply.push(`${place}. @${user.username}: ${-1 * user.cringeRate} `);
+        reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate} `);
       place++;
     });
     ctx.reply('Топ-5 по базе:\n' + reply.join('\n'));
