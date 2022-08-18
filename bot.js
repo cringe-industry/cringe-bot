@@ -12,13 +12,15 @@ const connect = (async () => await client.connect())().then(
   console.log('Connected to database')
 );
 
-const COMMAND_TIMEOUT = 60000;
+const COMMAND_TIMEOUT = 6;
 
 bot.command('cringe', async (ctx) => {
   try {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
-      const username = ctx.update.message.reply_to_message.from.username;
+      const username =
+        ctx.update.message.reply_to_message.from.username ||
+        ctx.update.message.reply_to_message.sender_chat.title;
       const user = await users.findOne({
         username: username,
         chatId: ctx.update.message.chat.id,
@@ -59,7 +61,9 @@ bot.command('baza', async (ctx) => {
   try {
     if (!!ctx.update.message.reply_to_message) {
       const users = client.db().collection('users');
-      const username = ctx.update.message.reply_to_message.from.username;
+      const username =
+        ctx.update.message.reply_to_message.from.username ||
+        ctx.update.message.reply_to_message.sender_chat.title;
       const user = await users.findOne({
         username: username,
         chatId: ctx.update.message.chat.id,
@@ -142,7 +146,9 @@ bot.command('topcringe', async (ctx) => {
         reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
       place++;
     });
-    ctx.reply(`Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n'));
+    ctx.reply(
+      `Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n')
+    );
   } catch (err) {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
