@@ -12,7 +12,7 @@ const connect = (async () => await client.connect())().then(
   console.log('Connected to database')
 );
 
-const COMMAND_TIMEOUT = 60000;
+const COMMAND_TIMEOUT = 30000;
 
 bot.command('cringe', async (ctx) => {
   try {
@@ -53,7 +53,7 @@ bot.command('cringe', async (ctx) => {
           console.log(username, '+1');
         } else {
           ctx.reply(
-            'Команды cringe и baza можно использовать не чаще, чем раз в минуту'
+            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд'
           );
         }
       }
@@ -103,7 +103,7 @@ bot.command('baza', async (ctx) => {
           console.log(username, '-1');
         } else {
           ctx.reply(
-            'Команды cringe и baza можно использовать не чаще, чем раз в минуту'
+            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд'
           );
         }
       }
