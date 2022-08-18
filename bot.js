@@ -12,7 +12,7 @@ const connect = (async () => await client.connect())().then(
   console.log('Connected to database')
 );
 
-const COMMAND_TIMEOUT = 6;
+const COMMAND_TIMEOUT = 60000;
 
 bot.command('cringe', async (ctx) => {
   try {
