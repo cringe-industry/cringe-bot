@@ -25,12 +25,15 @@ bot.command('cringe', async (ctx) => {
         username: username,
         chatId: ctx.update.message.chat.id,
       });
+      let isChannel = false;
+      if (ctx.update.message.reply_to_message.sender_chat.type === 'channel') isChannel = true;
       const emoji = String.fromCodePoint(0x1f4a9);
       if (!user) {
         await users.insertOne({
           username: username,
           cringeRate: 1,
           chatId: ctx.update.message.chat.id,
+          isChannel: isChannel,
           lastUsed: Date.now(),
         });
         ctx.reply(`${emoji} кринж`);
@@ -68,12 +71,15 @@ bot.command('baza', async (ctx) => {
         username: username,
         chatId: ctx.update.message.chat.id,
       });
+      let isChannel = false;
+      if (ctx.update.message.reply_to_message.sender_chat.type === 'channel') isChannel = true;
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
         await users.insertOne({
           username: username,
           cringeRate: -1,
           chatId: ctx.update.message.chat.id,
+          isChannel: isChannel,
           lastUsed: Date.now(),
         });
         ctx.reply(`${emoji} база`);
@@ -143,7 +149,8 @@ bot.command('topcringe', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate >= 0) {
-        reply.push(
+        if (user.isChannel) reply.push(`${place}. ${user.username}: ${user.cringeRate} `)
+        else reply.push(
           `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${user.cringeRate} `
         );
       }
@@ -171,7 +178,8 @@ bot.command('topbaza', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate <= 0) {
-        reply.push(
+        if (user.isChannel) reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate}`)
+        else reply.push(
           `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${
             -1 * user.cringeRate
           } `
@@ -187,10 +195,6 @@ bot.command('topbaza', async (ctx) => {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
   }
-});
-
-bot.command('test', (ctx) => {
-  console.dir(ctx.update.message.from);
 });
 
 bot.launch().then(console.log('Bot is running'));
