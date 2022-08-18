@@ -26,7 +26,11 @@ bot.command('cringe', async (ctx) => {
         chatId: ctx.update.message.chat.id,
       });
       let isChannel = false;
-      if (ctx.update.message.reply_to_message.sender_chat.type === 'channel') isChannel = true;
+      if (
+        !!ctx.update.message.reply_to_message.sender_chat &&
+        ctx.update.message.reply_to_message.sender_chat.type === 'channel'
+      )
+        isChannel = true;
       const emoji = String.fromCodePoint(0x1f4a9);
       if (!user) {
         await users.insertOne({
@@ -72,7 +76,11 @@ bot.command('baza', async (ctx) => {
         chatId: ctx.update.message.chat.id,
       });
       let isChannel = false;
-      if (ctx.update.message.reply_to_message.sender_chat.type === 'channel') isChannel = true;
+      if (
+        !!ctx.update.message.reply_to_message.sender_chat &&
+        ctx.update.message.reply_to_message.sender_chat.type === 'channel'
+      )
+        isChannel = true;
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
         await users.insertOne({
@@ -149,10 +157,12 @@ bot.command('topcringe', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate >= 0) {
-        if (user.isChannel) reply.push(`${place}. ${user.username}: ${user.cringeRate} `)
-        else reply.push(
-          `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${user.cringeRate} `
-        );
+        if (user.isChannel)
+          reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
+        else
+          reply.push(
+            `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${user.cringeRate} `
+          );
       }
       place++;
     });
@@ -178,12 +188,14 @@ bot.command('topbaza', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate <= 0) {
-        if (user.isChannel) reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate}`)
-        else reply.push(
-          `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${
-            -1 * user.cringeRate
-          } `
-        );
+        if (user.isChannel)
+          reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate}`);
+        else
+          reply.push(
+            `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${
+              -1 * user.cringeRate
+            } `
+          );
       }
       place++;
     });
