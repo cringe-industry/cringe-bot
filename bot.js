@@ -142,12 +142,16 @@ bot.command('topcringe', async (ctx) => {
     ]);
     let place = 1;
     await topCursor.forEach((user) => {
-      if (user.cringeRate >= 0)
-        reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
+      if (user.cringeRate >= 0) {
+        reply.push(
+          `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${user.cringeRate} `
+        );
+      }
       place++;
     });
     ctx.reply(
-      `Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n')
+      `Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n'),
+      { parse_mode: 'HTML', disable_web_page_preview: true }
     );
   } catch (err) {
     console.log(err);
@@ -166,11 +170,19 @@ bot.command('topbaza', async (ctx) => {
     ]);
     let place = 1;
     await topCursor.forEach((user) => {
-      if (user.cringeRate <= 0)
-        reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate} `);
+      if (user.cringeRate <= 0) {
+        reply.push(
+          `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${
+            -1 * user.cringeRate
+          } `
+        );
+      }
       place++;
     });
-    ctx.reply(`Топ-${reply.length} по базе:\n` + reply.join('\n'));
+    ctx.reply(`Топ-${reply.length} по базе в этом чате:\n` + reply.join('\n'), {
+      parse_mode: 'HTML',
+      disable_web_page_preview: true,
+    });
   } catch (err) {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
