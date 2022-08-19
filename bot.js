@@ -31,6 +31,11 @@ bot.command('cringe', async (ctx) => {
         ctx.update.message.reply_to_message.sender_chat.type === 'channel'
       )
         isChannel = true;
+      if (!user.lastUsedBy)
+        users.updateOne(
+          { username: username, chatId: ctx.update.message.chat.id },
+          { $set: { lastUsedBy: ctx.update.message.from.username } }
+        );
       const emoji = String.fromCodePoint(0x1f4a9);
       if (!user) {
         await users.insertOne({
@@ -39,21 +44,30 @@ bot.command('cringe', async (ctx) => {
           chatId: ctx.update.message.chat.id,
           isChannel: isChannel,
           lastUsed: Date.now(),
+          lastUsedBy: ctx.update.message.from.username,
         });
         ctx.reply(`${emoji} кринж`);
         console.log(username, '+1');
       } else {
-        if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
+        if (ctx.update.message.from.username !== user.lastUsedBy) {
           const newRate = user.cringeRate + 1;
           users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now() } }
+            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
+          );
+          ctx.reply(`${emoji} кринж`);
+          console.log(username, '+1');
+        } else if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
+          const newRate = user.cringeRate + 1;
+          users.updateOne(
+            { username: username, chatId: ctx.update.message.chat.id },
+            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
           );
           ctx.reply(`${emoji} кринж`);
           console.log(username, '+1');
         } else {
           ctx.reply(
-            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд'
+            `@${ctx.update.message.from.username}, команды cringe и baza можно использовать не чаще, чем раз в 30 секунд`
           );
         }
       }
@@ -89,21 +103,30 @@ bot.command('baza', async (ctx) => {
           chatId: ctx.update.message.chat.id,
           isChannel: isChannel,
           lastUsed: Date.now(),
+          lastUsedBy: ctx.update.message.from.username,
         });
         ctx.reply(`${emoji} база`);
         console.log(username, '-1');
       } else {
-        if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
-          const newRate = user.cringeRate - 1;
+        if (ctx.update.message.from.username !== user.lastUsedBy) {
+          const newRate = user.cringeRate + 1;
           users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now() } }
+            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
+          );
+          ctx.reply(`${emoji} база`);
+          console.log(username, '-1');
+        } else if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
+          const newRate = user.cringeRate + 1;
+          users.updateOne(
+            { username: username, chatId: ctx.update.message.chat.id },
+            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
           );
           ctx.reply(`${emoji} база`);
           console.log(username, '-1');
         } else {
           ctx.reply(
-            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд'
+            `@${ctx.update.message.from.username}, команды cringe и baza можно использовать не чаще, чем раз в 30 секунд`
           );
         }
       }
@@ -207,6 +230,10 @@ bot.command('topbaza', async (ctx) => {
     console.log(err);
     ctx.reply('Ошибка, напишите создателю!');
   }
+});
+
+bot.command('test', (ctx) => {
+  console.log(ctx.update.message.from.username);
 });
 
 bot.launch().then(console.log('Bot is running'));
