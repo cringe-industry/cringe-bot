@@ -67,7 +67,8 @@ bot.command('cringe', async (ctx) => {
           console.log(username, '+1');
         } else {
           ctx.reply(
-            `@${ctx.update.message.from.username}, команды cringe и baza можно использовать не чаще, чем раз в 30 секунд`
+            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд',
+            { reply_to_message_id: ctx.message.message_id }
           );
         }
       }
@@ -126,7 +127,8 @@ bot.command('baza', async (ctx) => {
           console.log(username, '-1');
         } else {
           ctx.reply(
-            `@${ctx.update.message.from.username}, команды cringe и baza можно использовать не чаще, чем раз в 30 секунд`
+            'Kоманды cringe и baza можно использовать не чаще, чем раз в 30 секунд',
+            { reply_to_message_id: ctx.message.message_id }
           );
         }
       }
@@ -233,7 +235,7 @@ bot.command('topbaza', async (ctx) => {
 });
 
 bot.command('test', (ctx) => {
-  console.log(ctx.update.message.from.username);
+  ctx.reply('loh', { reply_to_message_id: ctx.update.message.reply_to_message.message_id })
 });
 
 bot.launch().then(console.log('Bot is running'));
