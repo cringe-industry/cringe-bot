@@ -234,8 +234,4 @@ bot.command('topbaza', async (ctx) => {
   }
 });
 
-bot.command('test', (ctx) => {
-  ctx.reply('loh', { reply_to_message_id: ctx.update.message.reply_to_message.message_id })
-});
-
 bot.launch().then(console.log('Bot is running'));
