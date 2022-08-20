@@ -49,19 +49,20 @@ bot.command('cringe', async (ctx) => {
         ctx.reply(`${emoji} кринж`);
         console.log(username, '+1');
       } else {
-        if (ctx.update.message.from.username !== user.lastUsedBy) {
+        if (
+          ctx.update.message.from.username !== user.lastUsedBy ||
+          Date.now() - user.lastUsed > COMMAND_TIMEOUT
+        ) {
           const newRate = user.cringeRate + 1;
           users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
-          );
-          ctx.reply(`${emoji} кринж`);
-          console.log(username, '+1');
-        } else if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
-          const newRate = user.cringeRate + 1;
-          users.updateOne(
-            { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
+            {
+              $set: {
+                cringeRate: newRate,
+                lastUsed: Date.now(),
+                lastUsedBy: ctx.update.message.from.username,
+              },
+            }
           );
           ctx.reply(`${emoji} кринж`);
           console.log(username, '+1');
@@ -109,19 +110,20 @@ bot.command('baza', async (ctx) => {
         ctx.reply(`${emoji} база`);
         console.log(username, '-1');
       } else {
-        if (ctx.update.message.from.username !== user.lastUsedBy) {
+        if (
+          ctx.update.message.from.username !== user.lastUsedBy ||
+          Date.now() - user.lastUsed > COMMAND_TIMEOUT
+        ) {
           const newRate = user.cringeRate - 1;
           users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
-          );
-          ctx.reply(`${emoji} база`);
-          console.log(username, '-1');
-        } else if (Date.now() - user.lastUsed > COMMAND_TIMEOUT) {
-          const newRate = user.cringeRate - 1;
-          users.updateOne(
-            { username: username, chatId: ctx.update.message.chat.id },
-            { $set: { cringeRate: newRate, lastUsed: Date.now(), lastUsedBy: ctx.update.message.from.username } }
+            {
+              $set: {
+                cringeRate: newRate,
+                lastUsed: Date.now(),
+                lastUsedBy: ctx.update.message.from.username,
+              },
+            }
           );
           ctx.reply(`${emoji} база`);
           console.log(username, '-1');
