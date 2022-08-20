@@ -150,19 +150,19 @@ bot.command('mycringe', async (ctx) => {
       chatId: ctx.update.message.chat.id,
     });
     if (!me) {
-      ctx.reply(`@${myUsername}, с тебя еще не кринжевали!`);
+      ctx.reply('С тебя еще не кринжевали!', { reply_to_message_id: ctx.message.message_id });
     } else {
       if (me.cringeRate < 0) {
         const bazaEmoji = String.fromCodePoint(0x1f7e2);
         ctx.reply(
-          `${bazaEmoji} @${myUsername}, твой счет базы в этом чате: ${
-            -1 * me.cringeRate
-          }`
+          `${bazaEmoji} Tвой счет базы в этом чате: ${-1*me.cringeRate}`,
+          { reply_to_message_id: ctx.message.message_id }
         );
       } else {
         const cringeEmoji = String.fromCodePoint(0x1f534);
         ctx.reply(
-          `${cringeEmoji} @${myUsername}, твой счет кринжа в этом чате: ${me.cringeRate}`
+          `${cringeEmoji} Tвой счет кринжа в этом чате: ${me.cringeRate}`,
+          { reply_to_message_id: ctx.message.message_id }
         );
       }
     }
