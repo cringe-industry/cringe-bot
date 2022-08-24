@@ -54,7 +54,7 @@ bot.command('cringe', async (ctx) => {
           Date.now() - user.lastUsed > COMMAND_TIMEOUT
         ) {
           const newRate = user.cringeRate + 1;
-          users.updateOne(
+          await users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
             {
               $set: {
@@ -76,8 +76,11 @@ bot.command('cringe', async (ctx) => {
     }
   } catch (err) {
     console.log(err);
-    ctx.reply('Ошибка, напишите создателю!');
-  }
+    ctx.replyWithAnimation(
+      'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
+      { caption: 'Ошибка, напишите создателю!' },
+      { reply_to_message_id: ctx.message.message_id }
+    );  }
 });
 
 bot.command('baza', async (ctx) => {
@@ -115,7 +118,7 @@ bot.command('baza', async (ctx) => {
           Date.now() - user.lastUsed > COMMAND_TIMEOUT
         ) {
           const newRate = user.cringeRate - 1;
-          users.updateOne(
+          await users.updateOne(
             { username: username, chatId: ctx.update.message.chat.id },
             {
               $set: {
@@ -137,7 +140,11 @@ bot.command('baza', async (ctx) => {
     }
   } catch (err) {
     console.log(err);
-    ctx.reply('Ошибка, напишите создателю!');
+    ctx.replyWithAnimation(
+      'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
+      { caption: 'Ошибка, напишите создателю!' },
+      { reply_to_message_id: ctx.message.message_id }
+    );
   }
 });
 
@@ -168,8 +175,11 @@ bot.command('mycringe', async (ctx) => {
     }
   } catch (err) {
     console.log(err);
-    ctx.reply('Ошибка, напишите создателю!');
-  }
+    ctx.replyWithAnimation(
+      'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
+      { caption: 'Ошибка, напишите создателю!' },
+      { reply_to_message_id: ctx.message.message_id }
+    );  }
 });
 
 bot.command('topcringe', async (ctx) => {
@@ -199,8 +209,11 @@ bot.command('topcringe', async (ctx) => {
     );
   } catch (err) {
     console.log(err);
-    ctx.reply('Ошибка, напишите создателю!');
-  }
+    ctx.replyWithAnimation(
+      'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
+      { caption: 'Ошибка, напишите создателю!' },
+      { reply_to_message_id: ctx.message.message_id }
+    );  }
 });
 
 bot.command('topbaza', async (ctx) => {
@@ -232,8 +245,11 @@ bot.command('topbaza', async (ctx) => {
     });
   } catch (err) {
     console.log(err);
-    ctx.reply('Ошибка, напишите создателю!');
-  }
+    ctx.replyWithAnimation(
+      'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
+      { caption: 'Ошибка, напишите создателю!' },
+      { reply_to_message_id: ctx.message.message_id }
+    );  }
 });
 
 bot.launch().then(console.log('Bot is running'));
