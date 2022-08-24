@@ -2,6 +2,7 @@
 
 const { Telegraf } = require('telegraf');
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
 require('dotenv').config();
 
 const bot = new Telegraf(process.env.TOKEN);
@@ -25,12 +26,9 @@ bot.command('cringe', async (ctx) => {
         username: username,
         chatId: ctx.update.message.chat.id,
       });
-      let isChannel = false;
-      if (
+      const isChannel =
         !!ctx.update.message.reply_to_message.sender_chat &&
-        ctx.update.message.reply_to_message.sender_chat.type === 'channel'
-      )
-        isChannel = true;
+        ctx.update.message.reply_to_message.sender_chat.type === 'channel';
       if (!user.lastUsedBy)
         await users.updateOne(
           { username: username, chatId: ctx.update.message.chat.id },
@@ -80,7 +78,9 @@ bot.command('cringe', async (ctx) => {
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
       { caption: 'Ошибка, напишите создателю!' },
       { reply_to_message_id: ctx.message.message_id }
-    );  }
+    );
+    await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
+  }
 });
 
 bot.command('baza', async (ctx) => {
@@ -90,16 +90,13 @@ bot.command('baza', async (ctx) => {
       const username =
         ctx.update.message.reply_to_message.from.username ||
         ctx.update.message.reply_to_message.sender_chat.title;
+      const isChannel =
+        !!ctx.update.message.reply_to_message.sender_chat &&
+        ctx.update.message.reply_to_message.sender_chat.type === 'channel';
       const user = await users.findOne({
         username: username,
         chatId: ctx.update.message.chat.id,
       });
-      let isChannel = false;
-      if (
-        !!ctx.update.message.reply_to_message.sender_chat &&
-        ctx.update.message.reply_to_message.sender_chat.type === 'channel'
-      )
-        isChannel = true;
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
         await users.insertOne({
@@ -145,6 +142,7 @@ bot.command('baza', async (ctx) => {
       { caption: 'Ошибка, напишите создателю!' },
       { reply_to_message_id: ctx.message.message_id }
     );
+    await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
   }
 });
 
@@ -157,12 +155,14 @@ bot.command('mycringe', async (ctx) => {
       chatId: ctx.update.message.chat.id,
     });
     if (!me) {
-      ctx.reply('С тебя еще не кринжевали!', { reply_to_message_id: ctx.message.message_id });
+      ctx.reply('С тебя еще не кринжевали!', {
+        reply_to_message_id: ctx.message.message_id,
+      });
     } else {
       if (me.cringeRate < 0) {
         const bazaEmoji = String.fromCodePoint(0x1f7e2);
         ctx.reply(
-          `${bazaEmoji} Tвой счет базы в этом чате: ${-1*me.cringeRate}`,
+          `${bazaEmoji} Tвой счет базы в этом чате: ${-1 * me.cringeRate}`,
           { reply_to_message_id: ctx.message.message_id }
         );
       } else {
@@ -179,7 +179,9 @@ bot.command('mycringe', async (ctx) => {
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
       { caption: 'Ошибка, напишите создателю!' },
       { reply_to_message_id: ctx.message.message_id }
-    );  }
+    );
+    await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
+  }
 });
 
 bot.command('topcringe', async (ctx) => {
@@ -213,7 +215,9 @@ bot.command('topcringe', async (ctx) => {
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
       { caption: 'Ошибка, напишите создателю!' },
       { reply_to_message_id: ctx.message.message_id }
-    );  }
+    );
+    await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
+  }
 });
 
 bot.command('topbaza', async (ctx) => {
@@ -249,7 +253,9 @@ bot.command('topbaza', async (ctx) => {
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
       { caption: 'Ошибка, напишите создателю!' },
       { reply_to_message_id: ctx.message.message_id }
-    );  }
+    );
+    await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
+  }
 });
 
 bot.launch().then(console.log('Bot is running'));
