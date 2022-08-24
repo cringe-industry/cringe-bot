@@ -32,7 +32,7 @@ bot.command('cringe', async (ctx) => {
       )
         isChannel = true;
       if (!user.lastUsedBy)
-        users.updateOne(
+        await users.updateOne(
           { username: username, chatId: ctx.update.message.chat.id },
           { $set: { lastUsedBy: ctx.update.message.from.username } }
         );
