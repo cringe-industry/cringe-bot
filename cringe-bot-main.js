@@ -96,16 +96,13 @@ bot.command('cringe', async (ctx) => {
 
 bot.command('baza', async (ctx) => {
   try {
-    if (!!ctx.update.message.reply_to_message) {
+    const reply = ctx.update.message.reply_to_message;
+    if (reply) {
 
       const users = client.db().collection('users');
 
-      const username =
-        ctx.update.message.reply_to_message.from.username ||
-        ctx.update.message.reply_to_message.sender_chat.title;
-      const isChannel =
-        !!ctx.update.message.reply_to_message.sender_chat &&
-        ctx.update.message.reply_to_message.sender_chat.type === 'channel';
+      const username = reply.from.username || reply.sender_chat.title;
+      const isChannel = !!reply.sender_chat && reply.sender_chat.type === 'channel';
 
       const user = await users.findOne({
         username: username,
@@ -158,6 +155,11 @@ bot.command('baza', async (ctx) => {
         }
 
       }
+    } else {
+      ctx.reply(
+        'Команды cringe и baza нужно использовать в ответ на сообщение',
+        { reply_to_message_id: ctx.message.message_id }
+      );
     }
   } catch (err) {
     console.log(err);
