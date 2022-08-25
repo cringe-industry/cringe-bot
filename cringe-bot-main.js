@@ -18,23 +18,23 @@ const COMMAND_TIMEOUT = 30000;
 bot.command('cringe', async (ctx) => {
   try {
     if (!!ctx.update.message.reply_to_message) {
+
       const users = client.db().collection('users');
+
       const username =
         ctx.update.message.reply_to_message.from.username ||
         ctx.update.message.reply_to_message.sender_chat.title;
+      const isChannel =
+        !!ctx.update.message.reply_to_message.sender_chat &&
+        ctx.update.message.reply_to_message.sender_chat.type === 'channel';
+
       const user = await users.findOne({
         username: username,
         chatId: ctx.update.message.chat.id,
       });
-      const isChannel =
-        !!ctx.update.message.reply_to_message.sender_chat &&
-        ctx.update.message.reply_to_message.sender_chat.type === 'channel';
-      if (!user.lastUsedBy)
-        await users.updateOne(
-          { username: username, chatId: ctx.update.message.chat.id },
-          { $set: { lastUsedBy: ctx.update.message.from.username } }
-        );
+
       const emoji = String.fromCodePoint(0x1f4a9);
+
       if (!user) {
         await users.insertOne({
           username: username,
@@ -47,6 +47,14 @@ bot.command('cringe', async (ctx) => {
         ctx.reply(`${emoji} кринж`);
         console.log(username, '+1');
       } else {
+
+        if (!user.lastUsedBy) {
+          await users.updateOne(
+            { username: username, chatId: ctx.update.message.chat.id },
+            { $set: { lastUsedBy: ctx.update.message.from.username } }
+          );
+        }
+
         if (
           ctx.update.message.from.username !== user.lastUsedBy ||
           Date.now() - user.lastUsed > COMMAND_TIMEOUT
@@ -70,6 +78,7 @@ bot.command('cringe', async (ctx) => {
             { reply_to_message_id: ctx.message.message_id }
           );
         }
+
       }
     }
   } catch (err) {
@@ -86,17 +95,21 @@ bot.command('cringe', async (ctx) => {
 bot.command('baza', async (ctx) => {
   try {
     if (!!ctx.update.message.reply_to_message) {
+
       const users = client.db().collection('users');
+
       const username =
         ctx.update.message.reply_to_message.from.username ||
         ctx.update.message.reply_to_message.sender_chat.title;
       const isChannel =
         !!ctx.update.message.reply_to_message.sender_chat &&
         ctx.update.message.reply_to_message.sender_chat.type === 'channel';
+
       const user = await users.findOne({
         username: username,
         chatId: ctx.update.message.chat.id,
       });
+
       const emoji = String.fromCodePoint(0x1f349);
       if (!user) {
         await users.insertOne({
@@ -110,6 +123,14 @@ bot.command('baza', async (ctx) => {
         ctx.reply(`${emoji} база`);
         console.log(username, '-1');
       } else {
+
+        if (!user.lastUsedBy) {
+          await users.updateOne(
+            { username: username, chatId: ctx.update.message.chat.id },
+            { $set: { lastUsedBy: ctx.update.message.from.username } }
+          );
+        }
+
         if (
           ctx.update.message.from.username !== user.lastUsedBy ||
           Date.now() - user.lastUsed > COMMAND_TIMEOUT
@@ -133,6 +154,7 @@ bot.command('baza', async (ctx) => {
             { reply_to_message_id: ctx.message.message_id }
           );
         }
+
       }
     }
   } catch (err) {
@@ -159,6 +181,7 @@ bot.command('mycringe', async (ctx) => {
         reply_to_message_id: ctx.message.message_id,
       });
     } else {
+
       if (me.cringeRate < 0) {
         const bazaEmoji = String.fromCodePoint(0x1f7e2);
         ctx.reply(
@@ -172,6 +195,7 @@ bot.command('mycringe', async (ctx) => {
           { reply_to_message_id: ctx.message.message_id }
         );
       }
+
     }
   } catch (err) {
     console.log(err);
@@ -196,12 +220,14 @@ bot.command('topcringe', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate >= 0) {
+
         if (user.isChannel)
           reply.push(`${place}. ${user.username}: ${user.cringeRate} `);
         else
           reply.push(
             `${place}. <a href="t.me/${user.username}">${user.username}</a>: ${user.cringeRate} `
           );
+
       }
       place++;
     });
@@ -232,6 +258,7 @@ bot.command('topbaza', async (ctx) => {
     let place = 1;
     await topCursor.forEach((user) => {
       if (user.cringeRate <= 0) {
+
         if (user.isChannel)
           reply.push(`${place}. ${user.username}: ${-1 * user.cringeRate}`);
         else
@@ -240,6 +267,7 @@ bot.command('topbaza', async (ctx) => {
               -1 * user.cringeRate
             } `
           );
+          
       }
       place++;
     });
