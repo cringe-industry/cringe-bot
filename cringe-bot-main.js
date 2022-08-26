@@ -290,4 +290,11 @@ bot.command('topbaza', async (ctx) => {
   }
 });
 
+bot.command('donate', ctx => {
+  ctx.reply(
+    `Вы можете поддержать автора, скинув <a href="https://send.monobank.ua/jar/9XJBwEDntv">ему</a> пару копеек`,
+    { parse_mode: 'HTML' }
+  );
+})
+
 bot.launch().then(console.log('Bot is running'));
