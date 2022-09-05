@@ -4,7 +4,7 @@
   "description": "cringe",
   "main": "bot.js",
   "scripts": {
-    "start": "nodemon bot.js"
+    "start": "nodemon cringe-bot-main.js"
   },
   "engines": {
     "node": "18.0.0"
