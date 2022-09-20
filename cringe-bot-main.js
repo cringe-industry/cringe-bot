@@ -8,7 +8,7 @@ require('dotenv').config();
 const bot = new Telegraf(process.env.TOKEN);
 const client = new MongoClient(process.env.DB_URL);
 
-bot.start((ctx) => ctx.reply('Кринж в чате)'));
+bot.start((ctx) => ctx.reply('Крінж у чаті)'));
 const connect = (async () => await client.connect())().then(
   console.log('Connected to database')
 );
@@ -41,7 +41,7 @@ bot.command('cringe', async (ctx) => {
           lastUsed: Date.now(),
           lastUsedBy: ctx.update.message.from.username,
         });
-        ctx.reply(`${emoji} кринж`);
+        ctx.reply(`${emoji} крінж`);
         console.log(username, '+1');
       } else {
 
@@ -67,11 +67,11 @@ bot.command('cringe', async (ctx) => {
               },
             }
           );
-          ctx.reply(`${emoji} кринж`);
+          ctx.reply(`${emoji} крінж`);
           console.log(username, '+1');
         } else {
           ctx.reply(
-            'Команды cringe и baza можно использовать не чаще, чем раз в 30 секунд',
+            'Kоманди cringe и baza можна використовувати не частіше, ніж раз на 30 секунд',
             { reply_to_message_id: ctx.message.message_id }
           );
         }
@@ -79,7 +79,7 @@ bot.command('cringe', async (ctx) => {
       }
     } else {
       ctx.reply(
-        'Команды cringe и baza нужно использовать в ответ на сообщение',
+        'Команди cringe и baza потрібно використовувати у відповідь на повідомлення',
         { reply_to_message_id: ctx.message.message_id }
       );
     }
@@ -87,7 +87,7 @@ bot.command('cringe', async (ctx) => {
     console.log(err);
     ctx.replyWithAnimation(
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
-      { caption: 'Ошибка, напишите создателю!' },
+      { caption: 'Помилка!' },
       { reply_to_message_id: ctx.message.message_id }
     );
     await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
@@ -149,7 +149,7 @@ bot.command('baza', async (ctx) => {
           console.log(username, '-1');
         } else {
           ctx.reply(
-            'Kоманды cringe и baza можно использовать не чаще, чем раз в 30 секунд',
+            'Kоманди cringe и baza можна використовувати не частіше, ніж раз на 30 секунд',
             { reply_to_message_id: ctx.message.message_id }
           );
         }
@@ -157,7 +157,7 @@ bot.command('baza', async (ctx) => {
       }
     } else {
       ctx.reply(
-        'Команды cringe и baza нужно использовать в ответ на сообщение',
+        'Команди cringe и baza потрібно використовувати у відповідь на повідомлення',
         { reply_to_message_id: ctx.message.message_id }
       );
     }
@@ -181,7 +181,7 @@ bot.command('mycringe', async (ctx) => {
       chatId: ctx.update.message.chat.id,
     });
     if (!me) {
-      ctx.reply('С тебя еще не кринжевали!', {
+      ctx.reply('З тебе ще не крінжували!', {
         reply_to_message_id: ctx.message.message_id,
       });
     } else {
@@ -189,13 +189,13 @@ bot.command('mycringe', async (ctx) => {
       if (me.cringeRate < 0) {
         const bazaEmoji = String.fromCodePoint(0x1f7e2);
         ctx.reply(
-          `${bazaEmoji} Tвой счет базы в этом чате: ${-1 * me.cringeRate}`,
+          `${bazaEmoji} Твій рівень бази в цьому чаті: ${-1 * me.cringeRate}`,
           { reply_to_message_id: ctx.message.message_id }
         );
       } else {
         const cringeEmoji = String.fromCodePoint(0x1f534);
         ctx.reply(
-          `${cringeEmoji} Tвой счет кринжа в этом чате: ${me.cringeRate}`,
+          `${cringeEmoji} Твій рівень крінжа в цьому чаті: ${me.cringeRate}`,
           { reply_to_message_id: ctx.message.message_id }
         );
       }
@@ -205,7 +205,7 @@ bot.command('mycringe', async (ctx) => {
     console.log(err);
     ctx.replyWithAnimation(
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
-      { caption: 'Ошибка, напишите создателю!' },
+      { caption: 'Помилка!' },
       { reply_to_message_id: ctx.message.message_id }
     );
     await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
@@ -236,14 +236,14 @@ bot.command('topcringe', async (ctx) => {
       place++;
     });
     ctx.reply(
-      `Топ-${reply.length} по кринжу в этом чате:\n` + reply.join('\n'),
+      `Топ-${reply.length} по крінжу в цьому чаті:\n` + reply.join('\n'),
       { parse_mode: 'HTML', disable_web_page_preview: true }
     );
   } catch (err) {
     console.log(err);
     ctx.replyWithAnimation(
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
-      { caption: 'Ошибка, напишите создателю!' },
+      { caption: 'Помилка!' },
       { reply_to_message_id: ctx.message.message_id }
     );
     await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
@@ -275,7 +275,7 @@ bot.command('topbaza', async (ctx) => {
       }
       place++;
     });
-    ctx.reply(`Топ-${reply.length} по базе в этом чате:\n` + reply.join('\n'), {
+    ctx.reply(`Топ-${reply.length} по базі в цьому чаті:\n` + reply.join('\n'), {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
     });
@@ -283,7 +283,7 @@ bot.command('topbaza', async (ctx) => {
     console.log(err);
     ctx.replyWithAnimation(
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
-      { caption: 'Ошибка, напишите создателю!' },
+      { caption: 'Помилка!' },
       { reply_to_message_id: ctx.message.message_id }
     );
     await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
@@ -292,7 +292,7 @@ bot.command('topbaza', async (ctx) => {
 
 bot.command('donate', ctx => {
   ctx.reply(
-    `Вы можете поддержать автора, скинув <a href="https://send.monobank.ua/jar/21zMu1w55M">ему</a> пару копеек`,
+    `Можна підтримати автора, якщо скинути <a href="https://send.monobank.ua/jar/21zMu1w55M">йому</a> пару гривень`,
     { parse_mode: 'HTML', disable_web_page_preview: true }
   );
 })
