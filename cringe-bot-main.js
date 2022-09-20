@@ -71,7 +71,7 @@ bot.command('cringe', async (ctx) => {
           console.log(username, '+1');
         } else {
           ctx.reply(
-            'Kоманди cringe и baza можна використовувати не частіше, ніж раз на 30 секунд',
+            'Kоманди cringe та baza можна використовувати не частіше, ніж раз на 30 секунд',
             { reply_to_message_id: ctx.message.message_id }
           );
         }
@@ -79,7 +79,7 @@ bot.command('cringe', async (ctx) => {
       }
     } else {
       ctx.reply(
-        'Команди cringe и baza потрібно використовувати у відповідь на повідомлення',
+        'Команди cringe та baza потрібно використовувати у відповідь на повідомлення',
         { reply_to_message_id: ctx.message.message_id }
       );
     }
@@ -149,7 +149,7 @@ bot.command('baza', async (ctx) => {
           console.log(username, '-1');
         } else {
           ctx.reply(
-            'Kоманди cringe и baza можна використовувати не частіше, ніж раз на 30 секунд',
+            'Kоманди cringe та baza можна використовувати не частіше, ніж раз на 30 секунд',
             { reply_to_message_id: ctx.message.message_id }
           );
         }
@@ -157,7 +157,7 @@ bot.command('baza', async (ctx) => {
       }
     } else {
       ctx.reply(
-        'Команди cringe и baza потрібно використовувати у відповідь на повідомлення',
+        'Команди cringe та baza потрібно використовувати у відповідь на повідомлення',
         { reply_to_message_id: ctx.message.message_id }
       );
     }
@@ -165,7 +165,7 @@ bot.command('baza', async (ctx) => {
     console.log(err);
     ctx.replyWithAnimation(
       'CgACAgQAAxkBAAIGdWMGRgQzE71bCkapOT7XhUl0-IA3AAKjAgACRZT0UWWh8_f0jFRtKQQ',
-      { caption: 'Ошибка, напишите создателю!' },
+      { caption: 'Помилка!' },
       { reply_to_message_id: ctx.message.message_id }
     );
     await fs.promises.appendFile('log.txt', err.stack + '\n\n\n');
