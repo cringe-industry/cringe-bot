@@ -198,7 +198,7 @@ bot.command('getcringe', async (ctx) => {
 
       if (!user) {
         ctx.reply(
-          `З <a href="t.me/${user.username}">${user.username}</a> ще не крінжували або його немає в цьому чаті!`,
+          `З <a href="t.me/${neededUsername}">${neededUsername}</a> ще не крінжували або його немає в цьому чаті!`,
           { reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML', disable_web_page_preview: true }
         );
       } else {
