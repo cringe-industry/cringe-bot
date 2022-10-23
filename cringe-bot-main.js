@@ -349,7 +349,7 @@ bot.command('topbaza', async (ctx) => {
 
 bot.command('donate', (ctx) => {
   ctx.reply(
-    `Можна підтримати автора, якщо скинути <a href="https://send.monobank.ua/jar/21zMu1w55M">йому</a> пару гривень`,
+    `Можна підтримати автора, якщо скинути <a href="https://send.monobank.ua/jar/375qNeMVCD">йому</a> пару гривень`,
     { parse_mode: 'HTML', disable_web_page_preview: true }
   );
 });
